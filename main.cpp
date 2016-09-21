@@ -1,15 +1,15 @@
 #include "Veiculo.h"
 #include "Parada.h"
 #include "EstacaoDeBike.h"
+#include "listaDeVeiculos.h"
+#include "listaDeParadas.h"
+#include "listaDeEstacoesDeBike.h"
 #include <sstream>
 #include <fstream>
 using namespace std;
 
 int main (void)
 {
-	Veiculo veiculo[1007];
-	Parada	parada[5764];
-	EstacaoDeBike bikepoa[37];
 
 	ifstream paradafile, linhafile, linhaparadafile, bikefile;
 	paradafile.open("paradas.csv", ios::in);

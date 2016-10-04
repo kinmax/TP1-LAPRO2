@@ -1,0 +1,60 @@
+NODO
+#include <stdio.h>
+#include <stdlib.h>
+class nodo{
+public:
+int data;
+nodo* prox;
+nodo(){
+    data = 0;
+    nodo* prox = NULL;
+}
+nodo(int n){
+    data = n;
+    nodo* prox = NULL;};
+};
+
+LISTA
+#ifndef _lista_h
+#define _lista_h_
+#include <stdio.h>
+#include <stdlib.h>
+#include "nodo.h"
+
+class lista{
+public:
+nodo *prim, *cursor;
+
+lista(){ prim = NULL; cursor = NULL; };
+void incluir_inicio (int n){
+     if(prim == NULL){
+  	prim = new nodo(n);
+     }else{
+        cursor = prim;
+        prim = new nodo(n);
+        prim->prox = prim;
+};
+void incluir_final(int n){
+nodo no;
+no = new nodo(n);
+cursor = prim;
+if(cursor != NULL){
+   do{ cursor = cursor->prox; } while (cursor->prox != NULL);
+   if(cursor->prox == NULL){ 
+	cursor->prox = no;
+			   }
+}else{
+   prim = no;
+};
+     
+int get_element() { return cursor->data;};
+void percorre1() { cursor = cursor->prox;};
+void print(){
+while(cursor != NULL){
+ cout << cursor << " ";
+}else{
+cout << "Lista vazia" << endl;
+};
+};
+
+#endif

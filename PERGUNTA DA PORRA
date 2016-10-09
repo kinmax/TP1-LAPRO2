@@ -1,0 +1,79 @@
+Problem seems way too complicated for a begginer course.<br>
+The main purpose of the code is to read a CSV file like this: <br><br>
+***idlinha;idparada;127621;124;127621;127*....**<br> <br>
+And save the numbers in a linked list, where every node is a class.
+
+Following C++ code results in segmentation fault when ran:
+
+    void listaDeParadas::vinculaVeiculos(const char *_fileName, listaDeVeiculos lst)
+    {
+	ifstream file;
+	file.open(_fileName, ios::in);
+	string idlinha, idparada, line;
+	stringstream x, y;
+	int idl, idp, pos;
+	Veiculo *aux;
+	Parada *no;
+	aux =  new Veiculo;
+	no = new Parada;
+	aux = lst.get_transporte();
+	no = locais;
+	if (!file.is_open())
+	{
+		cout << "The CSV file failed to open." << endl;
+	}
+	else
+	{
+		getline(file, line); //Skips first line of the archive: categories 
+		while(!file.eof())
+		{
+			//Reading of the CSV and adding the variables to the linked list
+			getline(file, line);
+			pos = line.find(";");
+			idlinha = line.substr(0, pos);
+			line.erase(0, pos+1);
+			pos = line.find("\n");
+			idparada = line.substr(0, pos);
+			line.erase(0, pos+1);
+			x << idlinha;
+			x >> idl;
+			y << idparada;
+			y >> idp;
+
+			
+			aux = lst.get_transporte();
+			no = locais;				
+			while(aux->get_ID() != idl)
+			{
+				aux = aux->get_prox();
+			}
+			while (no->get_ID() != idp)
+			{
+				no = no->get_prox();
+			}
+			aux->RegisterStopOnTheVehicle(no);
+			no->RegisterVehicleOnStop(aux);
+			
+		}
+	}
+	aux = NULL; 
+	no = NULL;
+	delete(aux);
+	delete(no);
+    }
+
+Valgrind replies:<br>
+`==2622== Invalid read of size 4
+==2622==    at 0x405482: Veiculo::get_ID() (Veiculo.cpp:23)
+==2622==    by 0x402778: listaDeParadas::vinculaVeiculos(char const*, listaDeVeiculos) (listaDeParadas.cpp:135)
+==2622==    by 0x403AAF: main (main.cpp:27)
+==2622==  Address 0x0 is not stack'd, malloc'd or (recently) free'd
+==2622== 
+==2622== Process terminating with default action of signal 11 (SIGSEGV)
+==2622==  Access not within mapped region at address 0x0
+==2622==    at 0x405482: Veiculo::get_ID() (Veiculo.cpp:23)
+==2622==    by 0x402778: listaDeParadas::vinculaVeiculos(char const*, listaDeVeiculos) (listaDeParadas.cpp:135)
+==2622==    by 0x403AAF: main (main.cpp:27)
+`
+<br>
+Will provide more details if needed, thanks.
